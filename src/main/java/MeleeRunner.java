@@ -15,11 +15,9 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class MeleeRunner {
-    public static final int loopTime = 400;
+    public static final int loopTime = 100;
 
     public static void main(String[] args) throws Exception{
-        //Nd4j.getMemoryManager().togglePeriodicGc(false);
-
         InputStream input = new FileInputStream(args[2]);
         Properties jpyProps = new Properties();
         // load a properties file
@@ -41,10 +39,10 @@ public class MeleeRunner {
         NetworkTrainingServer server;
 
         try {
-            //server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
+            server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
             //ITrainingServer server = new NetworkTrainingServer("localhost");
             //server = new NetworkTrainingServer("ssbmvm1.csse.rose-hulman.edu");
-            server = new NetworkTrainingServer("localhost");
+            //server = new NetworkTrainingServer("localhost");
         }
         catch (Exception e){
             System.out.println("Could not connect to server");
