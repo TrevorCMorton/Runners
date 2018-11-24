@@ -33,7 +33,7 @@ public class MeleeRunner {
 
         System.out.println("Launching Emulator");
         Runtime rt = Runtime.getRuntime();
-        Process pr = rt.exec("/usr/games/dolphin-emu -e Melee.iso");
+        Process pr = rt.exec("/usr/games/dolphin-emu -e Melee.iso -u .dolphin-emu");
 
         System.out.println("Launching Training Server");
         NetworkTrainingServer server;
