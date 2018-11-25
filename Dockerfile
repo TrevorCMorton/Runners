@@ -61,7 +61,9 @@ RUN cd /home && \
 # Make named pipes in dolphin config folder
 RUN cd /home/Runners/.dolphin-emu/MemoryWatcher && \
 	mkfifo MemoryWatcher && \
-	cd /home/Runners/.dolphin-emu/Pipes && \
+	cd .. && \
+	mkdir Pipes && \
+	cd Pipes && \
 	mkfifo p3
 
 # Include the game iso
