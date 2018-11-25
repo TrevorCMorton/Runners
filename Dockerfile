@@ -45,15 +45,27 @@ RUN export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 && \
 	python3 setup.py --maven bdist_wheel && \
 	mvn install:install-file -Dfile=build/lib.linux-x86_64-3.5/jpy-0.10.0-SNAPSHOT.jar -DpomFile=pom.xml
 
-# Download and build MasBot
+# Download and install MasBot
 RUN cd /home && \
 	git clone https://github.com/TrevorCMorton/MasBot.git && \
 	cd MasBot && \
 	git checkout dev && \
+	mvn install
+
+# Download and build Runners
+RUN cd /home && \
+	git clone https://github.com/TrevorCMorton/Runners.git && \
+	cd Runners && \
 	mvn package
 
+# Make named pipes in dolphin config folder
+RUN cd /home/Runners/MemoryWatcher && \
+	mkfifo MemoryWatcher && \
+	cd /home/Runners/Pipes && \
+	mkfifo p3
+
 # Include the game iso
-ADD Melee.iso /home/MasBot
+ADD Melee.iso /home/Runners
 
 # Start virtual screen buffer
 RUN Xvfb :5 -screen 0 1920x1080x24 &
