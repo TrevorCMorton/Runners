@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 for (( ; ; ))
 do
-    java -jar target/MASMetaMultiActionAgent-1.0-SNAPSHOT-bin.jar .3 true /home/mortontc/jpyconfig.properties
+    docker run -it -p 1612:1612 -p 1613:1613 -p 1614:1614 -p 1615:1615 -p 1616:1616 -e prob=$PROB mas_image
 done
