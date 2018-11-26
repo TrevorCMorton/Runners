@@ -21,6 +21,8 @@ RUN apt-get update && apt-get install -y \
 		doxygen \
 		xvfb \
 		maven \
+		language-pack-en \
+		language-pack-en-base \
 		&& \
 	apt-get clean && \
 	apt-get autoremove && \
@@ -72,11 +74,9 @@ RUN cd /home/Runners/.dolphin-emu/MemoryWatcher && \
 # Include the game iso
 ADD Melee.iso /home/Runners
 
-# Start virtual screen buffer
-RUN Xvfb :5 -screen 0 1920x1080x24 &
-
-# Export display
-RUN export DISPLAY=:5
-
 WORKDIR "/root"
-CMD ["/bin/bash"]
+CMD Xvfb :5 -screen 0 1920x1080x24 & && \
+	export DISPLAY=:5 && \
+	cd /home/Runners && \
+	java -jar target/Runners-1.0-SNAPSHOT-bin.jar 1 true jpyconfig.propertiesfile true
+	
