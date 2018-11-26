@@ -75,7 +75,7 @@ RUN cd /home/Runners/.dolphin-emu/MemoryWatcher && \
 ADD Melee.iso /home/Runners
 
 WORKDIR "/root"
-CMD Xvfb :5 -screen 0 1920x1080x24 & && \
+CMD (Xvfb :5 -screen 0 1920x1080x24 &) && \
 	export DISPLAY=:5 && \
 	cd /home/Runners && \
 	java -jar target/Runners-1.0-SNAPSHOT-bin.jar 1 true jpyconfig.propertiesfile true
