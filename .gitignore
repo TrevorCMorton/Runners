@@ -1,4 +1,5 @@
 *.iso
 *.iml
+*/.idea/*
 .idea/*
 target/*

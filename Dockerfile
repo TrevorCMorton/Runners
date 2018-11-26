@@ -34,7 +34,10 @@ RUN pip3 --no-cache-dir install --upgrade ipython && \
 		Cython \
 		numpy \
 		Pillow \
-		wheel
+		wheel \ 
+		python-xlib \
+		mss \
+		opencv-python
 
 # Download, build, and install jpy
 RUN export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 && \
