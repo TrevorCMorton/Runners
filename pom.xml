@@ -15,8 +15,8 @@
         <shadedClassifier>bin</shadedClassifier>
 
         <java.version>1.8</java.version>
-        <nd4j.version>1.0.0-beta2</nd4j.version>
-        <dl4j.version>1.0.0-beta2</dl4j.version>
+        <nd4j.version>1.0.0-beta3</nd4j.version>
+        <dl4j.version>1.0.0-beta3</dl4j.version>
 
         <!-- Scala binary version: DL4J's Spark and UI functionality are released with both Scala 2.10 and 2.11 support -->
         <scala.binary.version>2.11</scala.binary.version>
@@ -100,15 +100,6 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
             <version>4.1</version>
-        </dependency>
-
-        <!-- Dependency for parallel wrapper (for multi-GPU parameter averaging -->
-        <dependency>
-            <groupId>org.deeplearning4j</groupId>
-
-            <artifactId>deeplearning4j-parallel-wrapper_${scala.binary.version}</artifactId>
-
-            <version>${dl4j.version}</version>
         </dependency>
 
         <dependency>
