@@ -28,7 +28,7 @@ class P4:
 
     def find_dolphin_dir(self):
         """Attempts to find the dolphin user directory. None on failure."""
-        candidates = ['~/.dolphin-emu', '~/.local/share/dolphin-emu', '/home/Runners/.dolphin-emu']
+        candidates = ['~/Runners/.dolphin-emu', '/home/Runners/.dolphin-emu']
         for candidate in candidates:
             path = os.path.expanduser(candidate)
             if os.path.isdir(path):
