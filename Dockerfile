@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM robbyjo/ubuntu-mkl:16.04-2018.1
 
 MAINTAINER Trevor Morton
 
