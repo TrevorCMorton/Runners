@@ -57,18 +57,18 @@ public class MeleeRunner {
         MetaDecisionAgent decisionAgent = new MetaDecisionAgent(dependencyGraph, Double.parseDouble(args[0]), 0);
         decisionAgent.setMetaGraph(server.getUpdatedNetwork());
 
-        PythonBridge bridge = new PythonBridge(Boolean.parseBoolean(args[3]));
+        PythonBridge bridge = new PythonBridge(Boolean.parseBoolean(args[3]), MetaDecisionAgent.size);
         bridge.start();
 
         float[][] inputBuffer = new float[4][];
 
         for(int i = 0; i < inputBuffer.length; i++){
-            inputBuffer[i] = new float[84 * 84];
+            inputBuffer[i] = new float[MetaDecisionAgent.size * MetaDecisionAgent.size];
         }
 
         INDArray[] prevActionMask = decisionAgent.getOutputMask(new String[0]);
 
-        int[] shape = {1, 4, 84, 84};
+        int[] shape = {1, 4, MetaDecisionAgent.size, MetaDecisionAgent.size};
         INDArray emptyFrame = Nd4j.zeros(shape);
         INDArray[] prevState = new INDArray[]{ emptyFrame, Nd4j.concat(1, prevActionMask) };
 
@@ -135,7 +135,7 @@ public class MeleeRunner {
             inputFrame = tempFrame;
         }
 
-        float[] flatFrame = new float[84 * 84 * 4];
+        float[] flatFrame = new float[MetaDecisionAgent.size * MetaDecisionAgent.size * 4];
         int pos = 0;
         for(int i = 0; i < inputBuffer.length; i++){
             for(int j = 0; j < inputBuffer[i].length; j++){
@@ -144,7 +144,7 @@ public class MeleeRunner {
             }
         }
 
-        int[] shape = {1, 4, 84, 84};
+        int[] shape = {1, 4, MetaDecisionAgent.size, MetaDecisionAgent.size};
         INDArray frame = Nd4j.create(flatFrame, shape, 'c');
 
         return frame;

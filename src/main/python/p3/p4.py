@@ -13,7 +13,7 @@ from subprocess import call
 
 
 class P4:
-    def __init__(self, setup):
+    def __init__(self, setup, size):
         self.setup = setup
         self.selected_fox = False
         self.selected_cpu = False
@@ -27,6 +27,7 @@ class P4:
         self.frame = None
         self.cpu_level = 0
         self.window_selected = False
+        self.size = size
 
     def find_dolphin_dir(self):
         """Attempts to find the dolphin user directory. None on failure."""
@@ -128,7 +129,7 @@ class P4:
                 if res is not None:
                     sm.handle(*res)
                 if game_state.frame > last_frame:
-                    self.frame = self.get_frame(84)
+                    self.frame = self.get_frame(self.size)
 
                     if game_state.menu == p3.state.Menu.PostGame:
                         self.post_game = True
