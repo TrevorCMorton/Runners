@@ -9,6 +9,7 @@ import numpy as np
 import cv2
 from threading import Thread
 import time
+from subprocess import call
 
 
 class P4:
@@ -25,6 +26,7 @@ class P4:
         self.restarting = False
         self.frame = None
         self.cpu_level = 0
+        self.window_selected = False
 
     def find_dolphin_dir(self):
         """Attempts to find the dolphin user directory. None on failure."""
@@ -73,6 +75,9 @@ class P4:
                     return False
             return False
         elif state.menu == p3.state.Menu.Stages:
+            if not self.window_selected:
+                call(["wmctrl", "-a", "FPS"])
+                self.window_selected = True
             if mm.pick_map(state, pad):
                 mm.press_start_lots(state, pad)
             return False

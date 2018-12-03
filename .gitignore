@@ -3,3 +3,4 @@
 */.idea/*
 .idea/*
 target/*
+src/main/python/p3/__pycache__/*

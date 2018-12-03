@@ -1,7 +1,6 @@
 import Xlib.display
 from mss import mss
 
-
 class ScreenWatcher:
     """Reads and parses game memory changes.
 
@@ -41,7 +40,7 @@ class ScreenWatcher:
             self.y += geometry.__getattr__('y')
             parent_tree = parent.query_tree()
             parent = parent_tree.__getattr__('parent')
-        print(self.x, self.y, self.width, self.height)
+        print(self.x, self.y, self.width, self.height, window.get_wm_name())
 
     def __iter__(self):
         """Iterate over this class in the usual way to get screen changes."""
