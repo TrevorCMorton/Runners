@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y \
 		maven \
 		language-pack-en \
 		language-pack-en-base \
+		wmctrl \
 		&& \
 	apt-get clean && \
 	apt-get autoremove && \
