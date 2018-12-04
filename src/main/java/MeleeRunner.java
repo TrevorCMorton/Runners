@@ -42,6 +42,7 @@ public class MeleeRunner {
             //server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
             //ITrainingServer server = new NetworkTrainingServer("localhost");
             //server = new NetworkTrainingServer("ssbmvm1.csse.rose-hulman.edu");
+            //server - new LocalTrainingServer(false, 10000, 128, );
             server = new NetworkTrainingServer("192.168.2.78");
         }
         catch (Exception e){
@@ -84,8 +85,6 @@ public class MeleeRunner {
 
             INDArray frame = getFrame(bridge, inputBuffer);
 
-            // = new INDArray[]{ frame/*, Nd4j.concat(1, prevActionMask)*/  };
-
             String[] results = decisionAgent.eval(frame);
 
             INDArray[] state = decisionAgent.getState(frame, results);
@@ -121,7 +120,6 @@ public class MeleeRunner {
 
         System.out.println("Average execution time was " + (execTime / count));
 
-        server.flushQueue();
         pr.destroy();
         //bridge.destroy();
         server.stop();
