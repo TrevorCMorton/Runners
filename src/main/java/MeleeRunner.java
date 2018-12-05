@@ -36,6 +36,7 @@ public class MeleeRunner {
         Process pr = rt.exec("/usr/games/dolphin-emu -e Melee.iso -u .dolphin-emu");
 
         System.out.println("Launching Training Server");
+        int port = Integer.parseInt(args[4]);
         NetworkTrainingServer server;
 
         try {
@@ -43,7 +44,7 @@ public class MeleeRunner {
             //ITrainingServer server = new NetworkTrainingServer("localhost");
             //server = new NetworkTrainingServer("ssbmvm1.csse.rose-hulman.edu");
             //server - new LocalTrainingServer(false, 10000, 128, );
-            server = new NetworkTrainingServer("192.168.2.78");
+            server = new NetworkTrainingServer("192.168.2.78", port);
         }
         catch (Exception e){
             System.out.println("Could not connect to server");
