@@ -54,6 +54,7 @@ public class MeleeRunner {
 
         Thread t = new Thread(server);
         t.start();
+        server.pause();
 
         AgentDependencyGraph dependencyGraph = server.getDependencyGraph();
         MetaDecisionAgent decisionAgent = new MetaDecisionAgent(dependencyGraph, Double.parseDouble(args[0]), 0);
@@ -123,6 +124,7 @@ public class MeleeRunner {
 
         pr.destroy();
         //bridge.destroy();
+        server.resume();
         server.stop();
     }
 
