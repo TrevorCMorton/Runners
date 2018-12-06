@@ -54,7 +54,6 @@ public class MeleeRunner {
 
         Thread t = new Thread(server);
         t.start();
-        server.pause();
 
         AgentDependencyGraph dependencyGraph = server.getDependencyGraph();
         MetaDecisionAgent decisionAgent = new MetaDecisionAgent(dependencyGraph, Double.parseDouble(args[0]), 0);
@@ -77,6 +76,8 @@ public class MeleeRunner {
 
         long count = 0;
         long execTime = 0;
+
+        server.pause();
 
         while(true){
             long start = System.currentTimeMillis();
