@@ -18,7 +18,7 @@ public class MeleeRunner {
     public static final int loopTime = 100;
 
     public static void main(String[] args) throws Exception{
-        InputStream input = new FileInputStream(args[2]);
+        InputStream input = new FileInputStream(args[1]);
         Properties jpyProps = new Properties();
         // load a properties file
         jpyProps.load(input);
@@ -29,14 +29,14 @@ public class MeleeRunner {
             prop.setProperty(property, (String)jpyProps.get(property));
         }
 
-        boolean sendData = Boolean.parseBoolean(args[1]);
+        boolean sendData = Boolean.parseBoolean(args[0]);
 
         System.out.println("Launching Emulator");
         Runtime rt = Runtime.getRuntime();
         Process pr = rt.exec("/usr/games/dolphin-emu -e Melee.iso -u .dolphin-emu");
 
         System.out.println("Launching Training Server");
-        int port = Integer.parseInt(args[4]);
+        int port = Integer.parseInt(args[3]);
         NetworkTrainingServer server;
 
         try {
@@ -56,10 +56,11 @@ public class MeleeRunner {
         t.start();
 
         AgentDependencyGraph dependencyGraph = server.getDependencyGraph();
-        MetaDecisionAgent decisionAgent = new MetaDecisionAgent(dependencyGraph, Double.parseDouble(args[0]), 0);
+        double prob = server.getProb();
+        MetaDecisionAgent decisionAgent = new MetaDecisionAgent(dependencyGraph, prob, 0);
         decisionAgent.setMetaGraph(server.getUpdatedNetwork());
 
-        PythonBridge bridge = new PythonBridge(Boolean.parseBoolean(args[3]), MetaDecisionAgent.size);
+        PythonBridge bridge = new PythonBridge(Boolean.parseBoolean(args[2]), MetaDecisionAgent.size);
         bridge.start();
 
         float[][] inputBuffer = new float[4][];
