@@ -77,6 +77,13 @@ public class MeleeRunner {
 
         long count = 0;
         long execTime = 0;
+        long pythonTime = 0;
+        long evalTime = 0;
+        long stateTime = 0;
+        long executeTime = 0;
+        long rewardTime = 0;
+        long masktime = 0;
+
 
         server.pause();
         t.suspend();
@@ -90,18 +97,33 @@ public class MeleeRunner {
 
             INDArray frame = getFrame(bridge, inputBuffer);
 
+            long pyTime = System.currentTimeMillis();
+            pythonTime += (pyTime - start);
+
             String[] results = decisionAgent.eval(frame);
+
+            long evTime = System.currentTimeMillis();
+            evalTime += evTime - pyTime;
 
             INDArray[] state = decisionAgent.getState(frame, results);
 
+            long stTime = System.currentTimeMillis();
+            stateTime += stTime - evTime;
+
             bridge.execute(results);
 
+            long exTime = System.currentTimeMillis();
+            executeTime += exTime - stTime;
+
             float curScore = bridge.getReward();
+
+            long rewTime = System.currentTimeMillis();
+            rewardTime += rewTime - exTime;
 
             INDArray[] mask = decisionAgent.getOutputMask(results);
 
             long end = System.currentTimeMillis();
-            execTime += (end - start);
+            masktime += (end - rewTime);
             if(end - start < MeleeRunner.loopTime) {
                 if(curScore != 0) {
                     System.out.println(curScore);
@@ -124,6 +146,12 @@ public class MeleeRunner {
         }
 
         System.out.println("Average execution time was " + (execTime / count));
+        System.out.println("Average python time was " + (pythonTime / count));
+        System.out.println("Average eval time was " + (evalTime / count));
+        System.out.println("Average state time was " + (stateTime / count));
+        System.out.println("Average execute time was " + (executeTime / count));
+        System.out.println("Average reward time was " + (rewardTime / count));
+        System.out.println("Average mask time was " + (masktime / count));
 
         pr.destroy();
         //bridge.destroy();
