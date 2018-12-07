@@ -79,6 +79,7 @@ public class MeleeRunner {
         long execTime = 0;
 
         server.pause();
+        t.suspend();
 
         while(true){
             long start = System.currentTimeMillis();
@@ -126,6 +127,7 @@ public class MeleeRunner {
 
         pr.destroy();
         //bridge.destroy();
+        t.resume();
         server.resume();
         server.stop();
     }
