@@ -162,9 +162,8 @@ class P4:
                     self.players = players_tuples
 
     def get_frame(self, size):
-        arr = self.to_grayscale(cv2.resize(np.array(next(self.sw)), (size, size), interpolation=cv2.INTER_LINEAR)[:,:,:3])[:,:,:1]
-        #return (arr - arr.mean()) / np.abs(arr.max())
-        return arr
+        arr = self.to_grayscale(cv2.resize(np.array(next(self.sw)), (size, size), interpolation=cv2.INTER_LINEAR)[:,:,:3])
+        return arr / 255.0
 
     def get_frame_fast(self):
         while self.frame is None:
@@ -175,8 +174,8 @@ class P4:
         return self.get_frame_fast().flatten()
 
     def to_grayscale(self, im):
-        im[:] = im.mean(axis=-1,keepdims=1)
-        return im
+        mean = np.mean(im, axis=2)
+        return mean
 
     def execute(self, actions):
         pad_path = self.dolphin_dir + '/Pipes/p3'
