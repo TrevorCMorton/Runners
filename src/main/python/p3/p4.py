@@ -163,7 +163,7 @@ class P4:
 
     def get_frame(self, size):
         arr = self.to_grayscale(cv2.resize(np.array(next(self.sw)), (size, size), interpolation=cv2.INTER_LINEAR)[:,:,:3])
-        return arr / 255.0
+        return arr
 
     def get_frame_fast(self):
         while self.frame is None:
