@@ -24,6 +24,8 @@ RUN apt-get update && apt-get install -y \
 		language-pack-en \
 		language-pack-en-base \
 		wmctrl \
+		mesa-utils \
+		libgl1-mesa-dri \
 		&& \
 	apt-get clean && \
 	apt-get autoremove && \

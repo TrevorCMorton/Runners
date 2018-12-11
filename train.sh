@@ -3,5 +3,5 @@ docker build -t mas_image$1 .
 for (( ; ; ))
 do
     docker stop $(docker ps -aq)
-    docker run -it mas_image$1
+    docker run --device=/dev/dri/card0 -it mas_image$1
 done
