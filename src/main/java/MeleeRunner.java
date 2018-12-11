@@ -151,6 +151,7 @@ public class MeleeRunner {
         System.out.println("Average execute time was " + (executeTime / count));
         System.out.println("Average reward time was " + (rewardTime / count));
         System.out.println("Average mask time was " + (masktime / count));
+        decisionAgent.printEvalSummary();
 
         pr.destroy();
         //bridge.destroy();
