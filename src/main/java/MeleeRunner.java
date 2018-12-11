@@ -36,7 +36,6 @@ public class MeleeRunner {
         Process pr = rt.exec("/usr/games/dolphin-emu -e Melee.iso -u .dolphin-emu");
 
         System.out.println("Launching Training Server");
-        int port = Integer.parseInt(args[3]);
         NetworkTrainingServer server;
 
         try {

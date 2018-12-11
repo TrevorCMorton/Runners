@@ -79,5 +79,5 @@ WORKDIR "/root"
 CMD (Xvfb :5 -screen 0 1920x1080x24 &) && \
 	export DISPLAY=:5 && \
 	cd /home/Runners && \
-	timeout 600s java -Xms2G -Xmx2G -jar target/Runners-1.0-SNAPSHOT-bin.jar true jpyconfig.propertiesfile true $PORT
+	timeout 600s java -Xms2G -Xmx2G -jar target/Runners-1.0-SNAPSHOT-bin.jar true jpyconfig.propertiesfile true
 	
