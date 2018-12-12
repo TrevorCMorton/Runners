@@ -39,11 +39,11 @@ public class MeleeRunner {
         NetworkTrainingServer server;
 
         try {
-            //server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
+            server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
             //ITrainingServer server = new NetworkTrainingServer("localhost");
             //server = new NetworkTrainingServer("ssbmvm1.csse.rose-hulman.edu");
             //server - new LocalTrainingServer(false, 10000, 128, );
-            server = new NetworkTrainingServer("192.168.2.78");
+            //server = new NetworkTrainingServer("192.168.2.78");
         }
         catch (Exception e){
             System.out.println("Could not connect to server");
