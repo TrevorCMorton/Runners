@@ -77,12 +77,10 @@ RUN cd /home/Runners/.dolphin-emu/MemoryWatcher && \
 # Include the game iso
 ADD Melee.iso /home/Runners
 
-# Set Visible GPU
-RUN export CUDA_VISIBLE_DEVICES=$DEVICE
-
 WORKDIR "/root"
 CMD (Xvfb :5 -screen 0 1920x1080x24 &) && \
 	export DISPLAY=:5 && \
+	export CUDA_VISIBLE_DEVICES=$DEVICE && \
 	cd /home/Runners && \
 	timeout 600s java -Xms2G -Xmx2G -jar target/Runners-1.0-SNAPSHOT-bin.jar true jpyconfig.propertiesfile true
 	
