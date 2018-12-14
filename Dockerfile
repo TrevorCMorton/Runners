@@ -77,6 +77,9 @@ RUN cd /home/Runners/.dolphin-emu/MemoryWatcher && \
 # Include the game iso
 ADD Melee.iso /home/Runners
 
+# Set Visible GPU
+RUN export CUDA_VISIBLE_DEVICES=$DEVICE
+
 WORKDIR "/root"
 CMD (Xvfb :5 -screen 0 1920x1080x24 &) && \
 	export DISPLAY=:5 && \
