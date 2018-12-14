@@ -1,4 +1,4 @@
-FROM robbyjo/ubuntu-mkl:16.04-2018.1
+FROM nvidia/cuda:9.2-base-ubuntu16.04
 
 MAINTAINER Trevor Morton
 
