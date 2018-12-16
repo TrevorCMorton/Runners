@@ -1,4 +1,5 @@
 import drl.agents.IAgent;
+import drl.agents.MeleeButtonAgent;
 import drl.agents.MeleeJoystickAgent;
 import drl.AgentDependencyGraph;
 import drl.MetaDecisionAgent;
@@ -36,7 +37,7 @@ public class MeleeRunner {
         Process pr = rt.exec("/usr/games/dolphin-emu -e Melee.iso -u .dolphin-emu");
 
         System.out.println("Launching Training Server");
-        NetworkTrainingServer server;
+        ITrainingServer server;
 
         try {
             server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
@@ -44,6 +45,14 @@ public class MeleeRunner {
             //server = new NetworkTrainingServer("ssbmvm1.csse.rose-hulman.edu");
             //server - new LocalTrainingServer(false, 10000, 128, );
             //server = new NetworkTrainingServer("192.168.2.78");
+            AgentDependencyGraph dependencyGraph = new AgentDependencyGraph();
+            IAgent joystickAgent = new MeleeJoystickAgent("M");
+            IAgent cstickAgent = new MeleeJoystickAgent("C");
+            IAgent abuttonAgent = new MeleeButtonAgent("A");
+            dependencyGraph.addAgent(null, joystickAgent, "M");
+            //dependencyGraph.addAgent(new String[]{"M"}, cstickAgent, "C");
+            //dependencyGraph.addAgent(new String[]{"M"}, abuttonAgent, "A");
+            //server = new DummyTrainingServer(dependencyGraph, "model.mod");
         }
         catch (Exception e){
             System.out.println("Could not connect to server");
