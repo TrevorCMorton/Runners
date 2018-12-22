@@ -149,12 +149,14 @@ class P4:
                         if len(self.players) != 0:
                             if i == 2:
                                 if self.players[i][0] < tuple[0]:
-                                    self.reward -= .1
+                                    #self.reward -= .1
+                                    self.reward -= 1
                                 if self.players[i][1] > tuple[1]:
                                     self.reward -= 1
                             else:
                                 if self.players[i][0] < tuple[0]:
-                                    self.reward += .1
+                                    #self.reward += .1
+                                    self.reward += 1
                                 if self.players[i][1] > tuple[1]:
                                     self.reward += 1
                         i += 1
@@ -162,7 +164,7 @@ class P4:
                     self.players = players_tuples
 
     def get_frame(self, size):
-        arr = self.to_grayscale(cv2.resize(np.array(next(self.sw)), (size, size), interpolation=cv2.INTER_LINEAR)[:,:,:3])
+        arr = self.to_grayscale(cv2.resize(np.array(next(self.sw)), (size, size), interpolation=cv2.INTER_AREA)[:,:,:3])
         return arr / 255.0
 
     def get_frame_fast(self):
