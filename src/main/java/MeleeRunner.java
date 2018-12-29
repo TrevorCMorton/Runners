@@ -40,8 +40,8 @@ public class MeleeRunner {
         ITrainingServer server;
 
         try {
-            server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
-            //ITrainingServer server = new NetworkTrainingServer("localhost");
+            //server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
+            server = new NetworkTrainingServer("localhost");
             //server = new NetworkTrainingServer("ssbmvm1.csse.rose-hulman.edu");
             //server - new LocalTrainingServer(false, 10000, 128, );
             //server = new NetworkTrainingServer("192.168.2.78");
@@ -65,7 +65,7 @@ public class MeleeRunner {
 
         AgentDependencyGraph dependencyGraph = server.getDependencyGraph();
         double prob = server.getProb();
-        MetaDecisionAgent decisionAgent = new MetaDecisionAgent(dependencyGraph, prob, 0);
+        MetaDecisionAgent decisionAgent = new MetaDecisionAgent(dependencyGraph, prob);
         decisionAgent.setMetaGraph(server.getUpdatedNetwork());
 
         PythonBridge bridge = new PythonBridge(Boolean.parseBoolean(args[2]), MetaDecisionAgent.size);
@@ -93,8 +93,8 @@ public class MeleeRunner {
         long masktime = 0;
 
 
-        server.pause();
-        t.suspend();
+        //server.pause();
+        //t.suspend();
 
         while(true){
             long start = System.currentTimeMillis();
@@ -164,8 +164,8 @@ public class MeleeRunner {
 
         pr.destroy();
         //bridge.destroy();
-        t.resume();
-        server.resume();
+        //t.resume();
+        //server.resume();
         server.stop();
     }
 
