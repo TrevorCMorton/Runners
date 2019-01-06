@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d323eba2-ab05-44f0-9ed5-ea6e01daa5f5" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../java/rise/RisePythonBridge.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../java/rise/RiseRunner.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../java/rise/RiseSourcer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/p3/rise_sourcer.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../java/MasterRunner.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/../java/MeleeRunner.java" afterPath="$PROJECT_DIR$/../java/melee/MeleeRunner.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/../java/P4.java" afterPath="$PROJECT_DIR$/../java/melee/P4.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/../java/PythonBridge.java" afterPath="$PROJECT_DIR$/../java/melee/PythonBridge.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../.dolphin-emu/Config/Dolphin.ini" afterPath="$PROJECT_DIR$/../../../.dolphin-emu/Config/Dolphin.ini" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../pom.xml" afterPath="$PROJECT_DIR$/../../../pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/p3/__main__.py" afterPath="$PROJECT_DIR$/p3/__main__.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/p3/p4.py" afterPath="$PROJECT_DIR$/p3/p4.py" />
@@ -57,10 +66,22 @@
       <file leaf-file-name="p4.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/p3/p4.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="638">
-              <caret line="177" column="0" lean-forward="false" selection-start-line="177" selection-start-column="0" selection-end-line="177" selection-end-column="0" />
+            <state relative-caret-position="566">
+              <caret line="194" column="28" lean-forward="false" selection-start-line="194" selection-start-column="28" selection-end-line="194" selection-end-column="28" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="rise_sourcer.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/p3/rise_sourcer.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="18">
+              <caret line="1" column="10" lean-forward="false" selection-start-line="1" selection-start-column="10" selection-end-line="1" selection-end-column="10" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -111,8 +132,8 @@
       <file leaf-file-name="__main__.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/p3/__main__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+            <state relative-caret-position="72">
+              <caret line="4" column="31" lean-forward="false" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -135,7 +156,7 @@
       <file leaf-file-name="screen_watcher.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/p3/screen_watcher.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
+            <state relative-caret-position="-18">
               <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
@@ -177,6 +198,7 @@
         <option value="$PROJECT_DIR$/p3/screen_watcher_test.py" />
         <option value="$PROJECT_DIR$/p3/menu_manager.py" />
         <option value="$PROJECT_DIR$/p3/screen_watcher.py" />
+        <option value="$PROJECT_DIR$/p3/rise_sourcer.py" />
         <option value="$PROJECT_DIR$/p3/__main__.py" />
         <option value="$PROJECT_DIR$/p3/p4.py" />
       </list>
@@ -210,6 +232,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -227,7 +250,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -361,12 +383,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/p3/p4.py</url>
-          <line>176</line>
+          <line>197</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/p3/p4.py</url>
-          <line>164</line>
+          <line>176</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
@@ -375,14 +397,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/p3/state.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="12" lean-forward="false" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/p3/__main__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
@@ -815,10 +829,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/p3/rise_sourcer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="10" lean-forward="false" selection-start-line="1" selection-start-column="10" selection-end-line="1" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/p3/__main__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+        <state relative-caret-position="72">
+          <caret line="4" column="31" lean-forward="false" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
@@ -827,7 +851,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/p3/screen_watcher.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
+        <state relative-caret-position="-18">
           <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
@@ -837,8 +861,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/p3/p4.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="638">
-          <caret line="177" column="0" lean-forward="false" selection-start-line="177" selection-start-column="0" selection-end-line="177" selection-end-column="0" />
+        <state relative-caret-position="566">
+          <caret line="194" column="28" lean-forward="false" selection-start-line="194" selection-start-column="28" selection-end-line="194" selection-end-column="28" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>

@@ -1,11 +1,11 @@
+package melee;
+
 import drl.agents.IAgent;
 import drl.agents.MeleeButtonAgent;
 import drl.agents.MeleeJoystickAgent;
 import drl.AgentDependencyGraph;
 import drl.MetaDecisionAgent;
-import drl.servers.LocalTrainingServer;
 import drl.servers.NetworkTrainingServer;
-import org.deeplearning4j.nn.graph.ComputationGraph;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 import drl.servers.DummyTrainingServer;
@@ -16,7 +16,9 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class MeleeRunner {
-    public static final int loopTime = 100;
+    public static final int loopTime = 50;
+
+    private static boolean saveHits = false;
 
     public static void main(String[] args) throws Exception{
         InputStream input = new FileInputStream(args[1]);
@@ -52,10 +54,10 @@ public class MeleeRunner {
             dependencyGraph.addAgent(null, joystickAgent, "M");
             //dependencyGraph.addAgent(new String[]{"M"}, cstickAgent, "C");
             //dependencyGraph.addAgent(new String[]{"M"}, abuttonAgent, "A");
-            //server = new DummyTrainingServer(dependencyGraph, "model.mod");
+            //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/model2.mod");
         }
         catch (Exception e){
-            System.out.println("Could not connect to server");
+            System.out.println("Could not connect to server" + e);
             pr.destroy();
             return;
         }
@@ -68,7 +70,7 @@ public class MeleeRunner {
         MetaDecisionAgent decisionAgent = new MetaDecisionAgent(dependencyGraph, prob);
         decisionAgent.setMetaGraph(server.getUpdatedNetwork());
 
-        PythonBridge bridge = new PythonBridge(Boolean.parseBoolean(args[2]), MetaDecisionAgent.size);
+        PythonBridge bridge = new PythonBridge(Boolean.parseBoolean(args[2]), MetaDecisionAgent.size, saveHits);
         bridge.start();
 
         float[][] inputBuffer = new float[4][];
@@ -91,7 +93,7 @@ public class MeleeRunner {
         long executeTime = 0;
         long rewardTime = 0;
         long masktime = 0;
-
+        boolean upload = true;
 
         //server.pause();
         //t.suspend();
@@ -118,32 +120,35 @@ public class MeleeRunner {
             long stTime = System.currentTimeMillis();
             stateTime += stTime - evTime;
 
+            float curScore = bridge.getReward();
+
+            if(sendData && upload) {
+                server.addData(prevState, state, prevActionMask, curScore);
+            }
+
+            long rewTime = System.currentTimeMillis();
+            rewardTime += rewTime - stTime;
+
             bridge.execute(results);
 
             long exTime = System.currentTimeMillis();
-            executeTime += exTime - stTime;
-
-            float curScore = bridge.getReward();
-
-            long rewTime = System.currentTimeMillis();
-            rewardTime += rewTime - exTime;
+            executeTime += exTime - rewTime;
 
             INDArray[] mask = decisionAgent.getOutputMask(results);
 
             long end = System.currentTimeMillis();
-            masktime += (end - rewTime);
+            masktime += (end - exTime);
             if(end - start < MeleeRunner.loopTime) {
+                upload = true;
+
                 if(curScore != 0) {
                     System.out.println(curScore);
-                }
-
-                if(sendData) {
-                    server.addData(prevState, state, prevActionMask, curScore);
                 }
 
                 Thread.sleep(MeleeRunner.loopTime - (end - start));
             }
             else{
+                upload = false;
                 System.out.println((end - start)  + " ms ");
             }
 

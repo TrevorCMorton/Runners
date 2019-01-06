@@ -132,7 +132,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>MeleeRunner</mainClass>
+                            <mainClass>melee.MeleeRunner</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

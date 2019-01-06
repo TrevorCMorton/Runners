@@ -10,10 +10,11 @@ import cv2
 from threading import Thread
 import time
 from subprocess import call
-
+import PIL
+import scipy.misc
 
 class P4:
-    def __init__(self, setup, size):
+    def __init__(self, setup, size, save_hits):
         self.setup = setup
         self.selected_fox = False
         self.selected_cpu = False
@@ -28,6 +29,8 @@ class P4:
         self.cpu_level = 0
         self.window_selected = False
         self.size = size
+        self.save_hits = save_hits
+        self.save_buffer = [None, None, None, None]
 
     def find_dolphin_dir(self):
         """Attempts to find the dolphin user directory. None on failure."""
@@ -113,6 +116,12 @@ class P4:
     def get_frame_reward(self):
         temp = self.reward
         self.reward = 0
+
+        if self.save_hits and temp != 0 and self.save_buffer[3] is not None:
+            file_time = time.time()
+            for i in range(0, len(self.save_buffer)):
+                file_name = str(file_time) + "_" + str(i) + ".png"
+                scipy.misc.imsave(file_name, self.save_buffer[i])
         #if temp == 0:
         #    temp += .05
         return temp
@@ -164,8 +173,9 @@ class P4:
                     self.players = players_tuples
 
     def get_frame(self, size):
-        arr = self.to_grayscale(cv2.resize(np.array(next(self.sw)), (size, size), interpolation=cv2.INTER_AREA)[:,:,:3])
-        return arr / 255.0
+        screen = next(self.sw)
+        arr = self.to_grayscale(cv2.resize(np.array(screen), (size, size), interpolation=cv2.INTER_AREA)[:,:,:3])
+        return arr / 255.0, screen
 
     def get_frame_fast(self):
         while self.frame is None:
@@ -173,7 +183,16 @@ class P4:
         return self.frame
 
     def get_flat_frame(self):
-        return self.get_frame_fast().flatten()
+        (shrunk_screen, screen) = self.get_frame_fast()
+
+        if self.save_buffer:
+            to_update = np.array(screen)[:,:,:3]
+            for i in range(0, len(self.save_buffer)):
+                temp = self.save_buffer[i]
+                self.save_buffer[i] = to_update
+                to_update = temp
+
+        return shrunk_screen.flatten()
 
     def to_grayscale(self, im):
         mean = np.mean(im, axis=2)

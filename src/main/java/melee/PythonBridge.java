@@ -1,14 +1,15 @@
+package melee;
+
 import org.jpy.PyLib;
 import org.jpy.PyModule;
 import org.jpy.PyObject;
 
-import java.util.List;
 import java.util.Properties;
 
 public class PythonBridge {
     P4 p4;
 
-    public PythonBridge(boolean autoSetup, int size){
+    public PythonBridge(boolean autoSetup, int size, boolean saveHits){
         Properties prop = System.getProperties();
 
         //prop.setProperty("jpy.jpyLib", System.getProperty("user.dir") + "/jpy-build/lib.linux-x86_64-3.6/jpy.cpython-36m-x86_64-linux-gnu.so");
@@ -24,7 +25,7 @@ public class PythonBridge {
 
         PyModule.importModule("p3");
         PyModule p4Module = PyModule.importModule("p3.p4");
-        PyObject plugInObj = p4Module.call("P4", autoSetup, size);
+        PyObject plugInObj = p4Module.call("P4", autoSetup, size, saveHits);
         this.p4 = plugInObj.createProxy(P4.class);
     }
 
