@@ -39,6 +39,7 @@ RUN pip3 --no-cache-dir install --upgrade ipython && \
 		Cython \
 		numpy \
 		Pillow \
+		scipy \
 		wheel \ 
 		python-xlib \
 		mss \
