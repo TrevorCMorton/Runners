@@ -42,7 +42,7 @@ public class MeleeRunner {
         ITrainingServer server;
 
         try {
-            //server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
+            server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
             //server = new NetworkTrainingServer("localhost");
             //server = new NetworkTrainingServer("ssbmvm1.csse.rose-hulman.edu");
             //server - new LocalTrainingServer(false, 10000, 128, );
@@ -54,7 +54,7 @@ public class MeleeRunner {
             dependencyGraph.addAgent(null, joystickAgent, "M");
             //dependencyGraph.addAgent(new String[]{"M"}, cstickAgent, "C");
             //dependencyGraph.addAgent(new String[]{"M"}, abuttonAgent, "A");
-            server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/model3.mod");
+            //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/model3.mod");
         }
         catch (Exception e){
             System.out.println("Could not connect to server" + e);
