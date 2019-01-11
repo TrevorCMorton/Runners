@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class MeleeRunner {
-    public static final int loopTime = 50;
+    public static final int loopTime = 100;
 
     private static boolean saveHits = false;
 
