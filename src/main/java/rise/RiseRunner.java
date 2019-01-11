@@ -39,7 +39,7 @@ public class RiseRunner {
 
         decisionAgent.getOutputNames();
 
-        INDArray[] masks = getMasks(500, new int[]{4, MetaDecisionAgent.size, MetaDecisionAgent.size}, .1);
+        INDArray[] masks = getMasks(500, new int[]{1, MetaDecisionAgent.depth, MetaDecisionAgent.size, MetaDecisionAgent.size}, .1);
 
         ComputationGraph graph = server.getUpdatedNetwork();
 

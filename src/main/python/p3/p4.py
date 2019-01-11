@@ -14,7 +14,7 @@ import PIL
 import scipy.misc
 
 class P4:
-    def __init__(self, setup, size, save_hits):
+    def __init__(self, setup, size, depth, save_hits):
         self.setup = setup
         self.selected_fox = False
         self.selected_cpu = False
@@ -30,7 +30,7 @@ class P4:
         self.window_selected = False
         self.size = size
         self.save_hits = save_hits
-        self.save_buffer = [None, None, None, None]
+        self.save_buffer = [None] * depth
 
     def find_dolphin_dir(self):
         """Attempts to find the dolphin user directory. None on failure."""

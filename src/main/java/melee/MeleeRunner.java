@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class MeleeRunner {
-    public static final int loopTime = 100;
+    public static final int loopTime = 50;
 
     private static boolean saveHits = false;
 
@@ -42,11 +42,11 @@ public class MeleeRunner {
         ITrainingServer server;
 
         try {
-            server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
+            //server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
             //server = new NetworkTrainingServer("localhost");
             //server = new NetworkTrainingServer("ssbmvm1.csse.rose-hulman.edu");
             //server - new LocalTrainingServer(false, 10000, 128, );
-            //server = new NetworkTrainingServer("192.168.2.78");
+            //server = new NetworkTrainingServer("192.168.2.191");
             AgentDependencyGraph dependencyGraph = new AgentDependencyGraph();
             IAgent joystickAgent = new MeleeJoystickAgent("M");
             IAgent cstickAgent = new MeleeJoystickAgent("C");
@@ -54,7 +54,7 @@ public class MeleeRunner {
             dependencyGraph.addAgent(null, joystickAgent, "M");
             //dependencyGraph.addAgent(new String[]{"M"}, cstickAgent, "C");
             //dependencyGraph.addAgent(new String[]{"M"}, abuttonAgent, "A");
-            //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/model2.mod");
+            server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/model3.mod");
         }
         catch (Exception e){
             System.out.println("Could not connect to server" + e);
@@ -70,10 +70,10 @@ public class MeleeRunner {
         MetaDecisionAgent decisionAgent = new MetaDecisionAgent(dependencyGraph, prob);
         decisionAgent.setMetaGraph(server.getUpdatedNetwork());
 
-        PythonBridge bridge = new PythonBridge(Boolean.parseBoolean(args[2]), MetaDecisionAgent.size, saveHits);
+        PythonBridge bridge = new PythonBridge(Boolean.parseBoolean(args[2]), MetaDecisionAgent.size, MetaDecisionAgent.depth, saveHits);
         bridge.start();
 
-        float[][] inputBuffer = new float[4][];
+        float[][] inputBuffer = new float[MetaDecisionAgent.depth][];
 
         for(int i = 0; i < inputBuffer.length; i++){
             inputBuffer[i] = new float[MetaDecisionAgent.size * MetaDecisionAgent.size];
@@ -81,7 +81,7 @@ public class MeleeRunner {
 
         INDArray[] prevActionMask = decisionAgent.getOutputMask(new String[0]);
 
-        int[] shape = {1, 4, MetaDecisionAgent.size, MetaDecisionAgent.size};
+        int[] shape = {1, MetaDecisionAgent.depth, MetaDecisionAgent.size, MetaDecisionAgent.size};
         INDArray emptyFrame = Nd4j.zeros(shape);
         INDArray[] prevState = new INDArray[]{ emptyFrame, Nd4j.concat(1, prevActionMask) };
 
@@ -182,7 +182,7 @@ public class MeleeRunner {
             inputFrame = tempFrame;
         }
 
-        float[] flatFrame = new float[MetaDecisionAgent.size * MetaDecisionAgent.size * 4];
+        float[] flatFrame = new float[MetaDecisionAgent.size * MetaDecisionAgent.size * MetaDecisionAgent.depth];
         int pos = 0;
         for(int i = 0; i < inputBuffer.length; i++){
             for(int j = 0; j < inputBuffer[i].length; j++){
@@ -191,7 +191,7 @@ public class MeleeRunner {
             }
         }
 
-        int[] shape = {1, 4, MetaDecisionAgent.size, MetaDecisionAgent.size};
+        int[] shape = {1, MetaDecisionAgent.depth, MetaDecisionAgent.size, MetaDecisionAgent.size};
         INDArray frame = Nd4j.create(flatFrame, shape, 'c');
 
         return frame;
