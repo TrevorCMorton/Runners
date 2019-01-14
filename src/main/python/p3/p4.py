@@ -31,6 +31,7 @@ class P4:
         self.size = size
         self.save_hits = save_hits
         self.save_buffer = [None] * depth
+        self.frame_buffer = [np.zeros(size * size)] * depth
 
     def find_dolphin_dir(self):
         """Attempts to find the dolphin user directory. None on failure."""
@@ -174,8 +175,22 @@ class P4:
 
     def get_frame(self, size):
         screen = next(self.sw)
-        arr = self.to_grayscale(cv2.resize(np.array(screen), (size, size), interpolation=cv2.INTER_AREA)[:,:,:3])
-        return arr / 255.0, screen
+
+        to_update = np.array(screen)[:, :, :3]
+        for i in range(0, len(self.save_buffer)):
+            temp = self.save_buffer[i]
+            self.save_buffer[i] = to_update
+            to_update = temp
+
+        frame = self.to_grayscale(cv2.resize(np.array(screen), (size, size), interpolation=cv2.INTER_AREA)).flatten(order='C')
+
+        to_update = frame
+        for i in range(0, len(self.frame_buffer)):
+            temp = self.frame_buffer[i]
+            self.frame_buffer[i] = to_update
+            to_update = temp
+
+        return np.concatenate(self.frame_buffer) / 255.0
 
     def get_frame_fast(self):
         while self.frame is None:
@@ -183,20 +198,11 @@ class P4:
         return self.frame
 
     def get_flat_frame(self):
-        (shrunk_screen, screen) = self.get_frame_fast()
+        screen = self.get_frame_fast()
+        return screen#.flatten()
 
-        if self.save_buffer:
-            to_update = np.array(screen)[:,:,:3]
-            for i in range(0, len(self.save_buffer)):
-                temp = self.save_buffer[i]
-                self.save_buffer[i] = to_update
-                to_update = temp
-
-        return shrunk_screen.flatten()
-
-    def to_grayscale(self, im):
-        mean = np.mean(im, axis=2)
-        return mean
+    def to_grayscale(self, image):
+        return np.dot(image[..., :3], [0.114, 0.587, 0.299]) # image is in bgra
 
     def execute(self, actions):
         pad_path = self.dolphin_dir + '/Pipes/p3'

@@ -42,7 +42,7 @@ public class MeleeRunner {
         ITrainingServer server;
 
         try {
-            server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
+            //server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
             //server = new NetworkTrainingServer("localhost");
             //server = new NetworkTrainingServer("ssbmvm1.csse.rose-hulman.edu");
             //server - new LocalTrainingServer(false, 10000, 128, );
@@ -54,7 +54,7 @@ public class MeleeRunner {
             dependencyGraph.addAgent(null, joystickAgent, "M");
             //dependencyGraph.addAgent(new String[]{"M"}, cstickAgent, "C");
             //dependencyGraph.addAgent(new String[]{"M"}, abuttonAgent, "A");
-            //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/model1.mod");
+            server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/model1.mod");
         }
         catch (Exception e){
             System.out.println("Could not connect to server" + e);
@@ -72,12 +72,6 @@ public class MeleeRunner {
 
         PythonBridge bridge = new PythonBridge(Boolean.parseBoolean(args[2]), MetaDecisionAgent.size, MetaDecisionAgent.depth, saveHits);
         bridge.start();
-
-        float[][] inputBuffer = new float[MetaDecisionAgent.depth][];
-
-        for(int i = 0; i < inputBuffer.length; i++){
-            inputBuffer[i] = new float[MetaDecisionAgent.size * MetaDecisionAgent.size];
-        }
 
         INDArray[] prevActionMask = decisionAgent.getOutputMask(new String[0]);
 
@@ -107,7 +101,7 @@ public class MeleeRunner {
                 break;
             }
 
-            INDArray frame = getFrame(bridge, inputBuffer);
+            INDArray frame = getFrame(bridge);
 
             long pyTime = System.currentTimeMillis();
             pythonTime += (pyTime - start);
@@ -178,25 +172,10 @@ public class MeleeRunner {
         server.stop();
     }
 
-    public static INDArray getFrame(PythonBridge bridge, float[][] inputBuffer){
+    public static INDArray getFrame(PythonBridge bridge){
         float[] inputFrame = bridge.getFlatFrame();
-        for(int i = 0; i < inputBuffer.length; i++){
-            float[] tempFrame = inputBuffer[i];
-            inputBuffer[i] = inputFrame;
-            inputFrame = tempFrame;
-        }
-
-        float[] flatFrame = new float[MetaDecisionAgent.size * MetaDecisionAgent.size * MetaDecisionAgent.depth];
-        int pos = 0;
-        for(int i = 0; i < inputBuffer.length; i++){
-            for(int j = 0; j < inputBuffer[i].length; j++){
-                flatFrame[pos] = inputBuffer[i][j];
-                pos++;
-            }
-        }
-
         int[] shape = {1, MetaDecisionAgent.depth, MetaDecisionAgent.size, MetaDecisionAgent.size};
-        INDArray frame = Nd4j.create(flatFrame, shape, 'c');
+        INDArray frame = Nd4j.create(inputFrame, shape, 'c');
 
         return frame;
     }
