@@ -42,7 +42,7 @@ public class MeleeRunner {
         ITrainingServer server;
 
         try {
-            server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
+            //server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
             //server = new NetworkTrainingServer("localhost");
             //server = new NetworkTrainingServer("ssbmvm1.csse.rose-hulman.edu");
             //server - new LocalTrainingServer(false, 10000, 128, );
@@ -54,7 +54,7 @@ public class MeleeRunner {
             dependencyGraph.addAgent(null, joystickAgent, "M");
             //dependencyGraph.addAgent(new String[]{"M"}, cstickAgent, "C");
             //dependencyGraph.addAgent(new String[]{"M"}, abuttonAgent, "A");
-            //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/model3.mod");
+            server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/model1.mod");
         }
         catch (Exception e){
             System.out.println("Could not connect to server" + e);
@@ -84,6 +84,8 @@ public class MeleeRunner {
         int[] shape = {1, MetaDecisionAgent.depth, MetaDecisionAgent.size, MetaDecisionAgent.size};
         INDArray emptyFrame = Nd4j.zeros(shape);
         INDArray[] prevState = new INDArray[]{ emptyFrame, Nd4j.concat(1, prevActionMask) };
+
+        INDArray[] prevLabels = prevActionMask;
 
         long count = 0;
         long execTime = 0;
@@ -121,9 +123,10 @@ public class MeleeRunner {
             stateTime += stTime - evTime;
 
             float curScore = bridge.getReward();
+            INDArray[] curLabels = decisionAgent.getCachedLabels();
 
             if(sendData && upload) {
-                server.addData(prevState, state, prevActionMask, curScore);
+                server.addData(prevState, state, prevActionMask, curScore, prevLabels, curLabels);
             }
 
             long rewTime = System.currentTimeMillis();
@@ -154,6 +157,7 @@ public class MeleeRunner {
 
             prevState = state;
             prevActionMask = mask;
+            prevLabels = curLabels;
 
             count++;
         }
