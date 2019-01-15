@@ -98,6 +98,15 @@ public class MeleeRunner {
             long start = System.currentTimeMillis();
 
             if (bridge.isPostGame()){
+                if(sendData && upload) {
+                    INDArray[] curLabels = new INDArray[prevLabels.length];
+
+                    for(int i = 0; i < curLabels.length; i++){
+                        curLabels[i] = prevLabels[i].mul(-1).add(-5);
+                    }
+
+                    server.addData(prevState, prevState, prevActionMask, -5, prevLabels, curLabels);
+                }
                 break;
             }
 
