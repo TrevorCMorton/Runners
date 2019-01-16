@@ -102,10 +102,10 @@ public class MeleeRunner {
                     INDArray[] curLabels = new INDArray[prevLabels.length];
 
                     for(int i = 0; i < curLabels.length; i++){
-                        curLabels[i] = prevLabels[i].mul(-1).add(-5);
+                        curLabels[i] = prevLabels[i].mul(-1).add(-1);
                     }
 
-                    server.addData(prevState, prevState, prevActionMask, -5, prevLabels, curLabels);
+                    server.addData(prevState, prevState, prevActionMask, -1, prevLabels, curLabels);
                 }
                 break;
             }
