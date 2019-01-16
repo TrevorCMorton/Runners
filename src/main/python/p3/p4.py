@@ -190,7 +190,7 @@ class P4:
             self.frame_buffer[i] = to_update
             to_update = temp
 
-        return np.concatenate(self.frame_buffer) # / 255
+        return np.concatenate(self.frame_buffer) / 255
 
     def get_frame_fast(self):
         while self.frame is None:
