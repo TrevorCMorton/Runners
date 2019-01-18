@@ -49,9 +49,11 @@ public class MeleeRunner {
             //server = new NetworkTrainingServer("192.168.2.191");
             AgentDependencyGraph dependencyGraph = new AgentDependencyGraph();
             IAgent joystickAgent = new MeleeJoystickAgent("M");
+            IAgent bbuttonAgent = new MeleeButtonAgent("B");
             IAgent cstickAgent = new MeleeJoystickAgent("C");
             IAgent abuttonAgent = new MeleeButtonAgent("A");
             dependencyGraph.addAgent(null, joystickAgent, "M");
+            dependencyGraph.addAgent(new String[]{"M"}, bbuttonAgent, "B");
             //dependencyGraph.addAgent(new String[]{"M"}, cstickAgent, "C");
             //dependencyGraph.addAgent(new String[]{"M"}, abuttonAgent, "A");
             //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/model1.mod");
@@ -80,6 +82,8 @@ public class MeleeRunner {
         INDArray[] prevState = new INDArray[]{ emptyFrame, Nd4j.concat(1, prevActionMask) };
 
         INDArray[] prevLabels = prevActionMask;
+
+        double score = 0;
 
         long count = 0;
         long execTime = 0;
@@ -126,6 +130,7 @@ public class MeleeRunner {
             stateTime += stTime - evTime;
 
             float curScore = bridge.getReward();
+            score += curScore;
             INDArray[] curLabels = decisionAgent.getCachedLabels();
 
             if(sendData && upload) {
@@ -173,6 +178,8 @@ public class MeleeRunner {
         System.out.println("Average reward time was " + (rewardTime / count));
         System.out.println("Average mask time was " + (masktime / count));
         decisionAgent.printEvalSummary();
+
+        server.addScore(score);
 
         pr.destroy();
         //bridge.destroy();
