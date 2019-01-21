@@ -52,11 +52,11 @@ public class MeleeRunner {
             IAgent bbuttonAgent = new MeleeButtonAgent("B");
             IAgent cstickAgent = new MeleeJoystickAgent("C");
             IAgent abuttonAgent = new MeleeButtonAgent("A");
-            dependencyGraph.addAgent(null, joystickAgent, "M");
-            dependencyGraph.addAgent(new String[]{"M"}, bbuttonAgent, "B");
+            dependencyGraph.addAgent(null, bbuttonAgent, "B");
+            dependencyGraph.addAgent(new String[]{"B"}, joystickAgent, "M");
             //dependencyGraph.addAgent(new String[]{"M"}, cstickAgent, "C");
             //dependencyGraph.addAgent(new String[]{"M"}, abuttonAgent, "A");
-            //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/model1.mod");
+            //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/modelStickB.mod");
         }
         catch (Exception e){
             System.out.println("Could not connect to server" + e);
