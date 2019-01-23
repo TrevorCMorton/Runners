@@ -78,8 +78,7 @@ public class MeleeRunner {
         INDArray[] prevActionMask = decisionAgent.getOutputMask(new String[0]);
 
         int[] shape = {1, MetaDecisionAgent.depth, MetaDecisionAgent.size, MetaDecisionAgent.size};
-        INDArray emptyFrame = Nd4j.zeros(shape);
-        INDArray[] prevState = new INDArray[]{ emptyFrame, Nd4j.concat(1, prevActionMask) };
+        INDArray[] prevState = null;
 
         INDArray[] prevLabels = prevActionMask;
 
@@ -131,7 +130,7 @@ public class MeleeRunner {
             score += curScore;
             INDArray[] curLabels = decisionAgent.getCachedLabels();
 
-            if(sendData && upload) {
+            if(sendData && upload && prevState != null) {
                 server.addData(prevState, frame, prevActionMask, curScore, prevLabels, curLabels);
             }
 
