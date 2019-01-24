@@ -52,8 +52,8 @@ public class MeleeRunner {
             IAgent bbuttonAgent = new MeleeButtonAgent("B");
             IAgent cstickAgent = new MeleeJoystickAgent("C");
             IAgent abuttonAgent = new MeleeButtonAgent("A");
-            dependencyGraph.addAgent(null, bbuttonAgent, "B");
-            dependencyGraph.addAgent(new String[]{"B"}, joystickAgent, "M");
+            //dependencyGraph.addAgent(null, bbuttonAgent, "B");
+            dependencyGraph.addAgent(null, joystickAgent, "M");
             //dependencyGraph.addAgent(new String[]{"M"}, cstickAgent, "C");
             //dependencyGraph.addAgent(new String[]{"M"}, abuttonAgent, "A");
             //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/modelBStick.mod");
@@ -176,6 +176,7 @@ public class MeleeRunner {
         System.out.println("Average mask time was " + (masktime / count));
 
         server.addScore(score);
+        System.out.println("Score was " + score);
 
         pr.destroy();
         //bridge.destroy();
