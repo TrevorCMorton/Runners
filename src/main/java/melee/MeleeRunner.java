@@ -56,7 +56,7 @@ public class MeleeRunner {
             dependencyGraph.addAgent(null, joystickAgent, "M");
             //dependencyGraph.addAgent(new String[]{"M"}, cstickAgent, "C");
             //dependencyGraph.addAgent(new String[]{"M"}, abuttonAgent, "A");
-            //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/modelBStick.mod");
+            //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/modelStick.mod");
         }
         catch (Exception e){
             System.out.println("Could not connect to server" + e);
@@ -110,7 +110,7 @@ public class MeleeRunner {
                         curLabels[i] = prevLabels[i].mul(-1).add(-1);
                     }
 
-                    server.addData(prevState, frame, prevActionMask, -1, prevLabels, curLabels);
+                    server.addData(prevState, frame, prevActionMask, -10, prevLabels, curLabels);
                 }
                 break;
             }
