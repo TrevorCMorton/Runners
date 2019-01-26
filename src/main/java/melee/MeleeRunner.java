@@ -110,7 +110,7 @@ public class MeleeRunner {
                         curLabels[i] = prevLabels[i].mul(-1).add(-1);
                     }
 
-                    server.addData(prevState, frame, prevActionMask, -10, prevLabels, curLabels);
+                    server.addData(prevState, frame, prevActionMask, -1, prevLabels, curLabels);
                 }
                 break;
             }

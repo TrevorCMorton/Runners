@@ -179,12 +179,12 @@ class MenuManager:
     def pick_map(self, state, pad):
         print(self.map_frames)
         if self.map_moves < 20 and self.map_frames % 10 == 0:
-            pad.tilt_stick(p3.pad.Stick.MAIN, .7, .7)
+            pad.tilt_stick(p3.pad.Stick.MAIN, .6, .7)
             self.map_moves += 1
         else:
             pad.reset()
         self.map_frames += 1
-        if self.map_moves >= 20:
+        if self.map_moves >= 15:
             return True
 
     def press_start_lots(self, state, pad):
