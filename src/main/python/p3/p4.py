@@ -161,13 +161,13 @@ class P4:
                                 if self.players[i][0] < tuple[0]:
                                     self.reward -= .1
                                     #self.reward -= 1
-                                if self.players[i][1] > tuple[1]:
+                                if self.players[i][1] != tuple[1]:
                                     self.reward -= 1
                             else:
                                 if self.players[i][0] < tuple[0]:
                                     self.reward += .1
                                     #self.reward += 1
-                                if self.players[i][1] > tuple[1]:
+                                if self.players[i][1] != tuple[1]:
                                     self.reward += 1
                         i += 1
                         players_tuples.append(tuple)
