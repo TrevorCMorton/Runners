@@ -42,7 +42,7 @@ public class MeleeRunner {
         ITrainingServer server;
 
         try {
-            server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
+            //server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
             //server = new NetworkTrainingServer("localhost");
             //server = new NetworkTrainingServer("ssbmvm1.csse.rose-hulman.edu");
             //server - new LocalTrainingServer(false, 10000, 128, );
@@ -52,11 +52,11 @@ public class MeleeRunner {
             IAgent bbuttonAgent = new MeleeButtonAgent("B");
             IAgent cstickAgent = new MeleeJoystickAgent("C");
             IAgent abuttonAgent = new MeleeButtonAgent("A");
-            //dependencyGraph.addAgent(null, bbuttonAgent, "B");
-            dependencyGraph.addAgent(null, joystickAgent, "M");
-            //dependencyGraph.addAgent(new String[]{"M"}, cstickAgent, "C");
+            dependencyGraph.addAgent(null, bbuttonAgent, "B");
             //dependencyGraph.addAgent(new String[]{"M"}, abuttonAgent, "A");
-            //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/modelStick.mod");
+            dependencyGraph.addAgent(new String[]{"B"}, joystickAgent, "M");
+            //dependencyGraph.addAgent(new String[]{"M"}, cstickAgent, "C");
+            server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/modelStickB.mod");
         }
         catch (Exception e){
             System.out.println("Could not connect to server" + e);
@@ -110,7 +110,7 @@ public class MeleeRunner {
                         curLabels[i] = prevLabels[i].mul(-1).add(-1);
                     }
 
-                    server.addData(prevState, frame, prevActionMask, -1, prevLabels, curLabels);
+                    //server.addData(prevState, frame, prevActionMask, -1, prevLabels, curLabels);
                 }
                 break;
             }
