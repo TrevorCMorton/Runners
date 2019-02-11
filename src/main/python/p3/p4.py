@@ -209,7 +209,6 @@ class P4:
         with p3.pad.Pad(pad_path) as pad:
             for actionSet in actions:
                 for action in actionSet.split(':'):
-                    print(action)
                     if action == 'MR':
                         pad.tilt_stick(p3.pad.Stick.MAIN, .5, .5)
                     elif action == 'MN':
