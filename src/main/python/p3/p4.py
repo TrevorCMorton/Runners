@@ -207,61 +207,63 @@ class P4:
     def execute(self, actions):
         pad_path = self.dolphin_dir + '/Pipes/p3'
         with p3.pad.Pad(pad_path) as pad:
-            for action in actions:
-                if action == 'MR':
-                    pad.tilt_stick(p3.pad.Stick.MAIN, .5, .5)
-                elif action == 'MN':
-                    pad.tilt_stick(p3.pad.Stick.MAIN, .5, 1)
-                elif action == 'MNW':
-                    pad.tilt_stick(p3.pad.Stick.MAIN, 1, 1)
-                elif action == 'MW':
-                    pad.tilt_stick(p3.pad.Stick.MAIN, 1, .5)
-                elif action == 'MSW':
-                    pad.tilt_stick(p3.pad.Stick.MAIN, 1, 0)
-                elif action == 'MS':
-                    pad.tilt_stick(p3.pad.Stick.MAIN, .5, 0)
-                elif action == 'MSE':
-                    pad.tilt_stick(p3.pad.Stick.MAIN, 0, 0)
-                elif action == 'ME':
-                    pad.tilt_stick(p3.pad.Stick.MAIN, 0, .5)
-                elif action == 'MNE':
-                    pad.tilt_stick(p3.pad.Stick.MAIN, 0, 1)
+            for actionSet in actions:
+                for action in actionSet.split(':'):
+                    print(action)
+                    if action == 'MR':
+                        pad.tilt_stick(p3.pad.Stick.MAIN, .5, .5)
+                    elif action == 'MN':
+                        pad.tilt_stick(p3.pad.Stick.MAIN, .5, 1)
+                    elif action == 'MNW':
+                        pad.tilt_stick(p3.pad.Stick.MAIN, 1, 1)
+                    elif action == 'MW':
+                        pad.tilt_stick(p3.pad.Stick.MAIN, 1, .5)
+                    elif action == 'MSW':
+                        pad.tilt_stick(p3.pad.Stick.MAIN, 1, 0)
+                    elif action == 'MS':
+                        pad.tilt_stick(p3.pad.Stick.MAIN, .5, 0)
+                    elif action == 'MSE':
+                        pad.tilt_stick(p3.pad.Stick.MAIN, 0, 0)
+                    elif action == 'ME':
+                        pad.tilt_stick(p3.pad.Stick.MAIN, 0, .5)
+                    elif action == 'MNE':
+                        pad.tilt_stick(p3.pad.Stick.MAIN, 0, 1)
 
-                if action == 'CR':
-                    pad.tilt_stick(p3.pad.Stick.C, .5, .5)
-                elif action == 'CN':
-                    pad.tilt_stick(p3.pad.Stick.C, .5, 1)
-                elif action == 'CNW':
-                    pad.tilt_stick(p3.pad.Stick.C, 1, 1)
-                elif action == 'CW':
-                    pad.tilt_stick(p3.pad.Stick.C, 1, .5)
-                elif action == 'CSW':
-                    pad.tilt_stick(p3.pad.Stick.C, 1, 0)
-                elif action == 'CS':
-                    pad.tilt_stick(p3.pad.Stick.C, .5, 0)
-                elif action == 'CSE':
-                    pad.tilt_stick(p3.pad.Stick.C, 0, 0)
-                elif action == 'CE':
-                    pad.tilt_stick(p3.pad.Stick.C, 0, .5)
-                elif action == 'CNE':
-                    pad.tilt_stick(p3.pad.Stick.C, 0, 1)
+                    if action == 'CR':
+                        pad.tilt_stick(p3.pad.Stick.C, .5, .5)
+                    elif action == 'CN':
+                        pad.tilt_stick(p3.pad.Stick.C, .5, 1)
+                    elif action == 'CNW':
+                        pad.tilt_stick(p3.pad.Stick.C, 1, 1)
+                    elif action == 'CW':
+                        pad.tilt_stick(p3.pad.Stick.C, 1, .5)
+                    elif action == 'CSW':
+                        pad.tilt_stick(p3.pad.Stick.C, 1, 0)
+                    elif action == 'CS':
+                        pad.tilt_stick(p3.pad.Stick.C, .5, 0)
+                    elif action == 'CSE':
+                        pad.tilt_stick(p3.pad.Stick.C, 0, 0)
+                    elif action == 'CE':
+                        pad.tilt_stick(p3.pad.Stick.C, 0, .5)
+                    elif action == 'CNE':
+                        pad.tilt_stick(p3.pad.Stick.C, 0, 1)
 
-                if action == 'PA':
-                    pad.press_button(p3.pad.Button.A)
-                elif action == 'RA':
-                    pad.release_button(p3.pad.Button.A)
+                    if action == 'PA':
+                        pad.press_button(p3.pad.Button.A)
+                    elif action == 'RA':
+                        pad.release_button(p3.pad.Button.A)
 
-                if action == 'PB':
-                    pad.press_button(p3.pad.Button.B)
-                elif action == 'RB':
-                    pad.release_button(p3.pad.Button.B)
+                    if action == 'PB':
+                        pad.press_button(p3.pad.Button.B)
+                    elif action == 'RB':
+                        pad.release_button(p3.pad.Button.B)
 
-                if action == 'PY':
-                    pad.press_button(p3.pad.Button.Y)
-                elif action == 'RY':
-                    pad.release_button(p3.pad.Button.Y)
+                    if action == 'PY':
+                        pad.press_button(p3.pad.Button.Y)
+                    elif action == 'RY':
+                        pad.release_button(p3.pad.Button.Y)
 
-                if action == 'PZ':
-                    pad.press_button(p3.pad.Button.Z)
-                elif action == 'RZ':
-                    pad.release_button(p3.pad.Button.Z)
+                    if action == 'PZ':
+                        pad.press_button(p3.pad.Button.Z)
+                    elif action == 'RZ':
+                        pad.release_button(p3.pad.Button.Z)
