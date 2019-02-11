@@ -1,5 +1,6 @@
 package melee;
 
+import drl.agents.CombinationControlAgent;
 import drl.agents.IAgent;
 import drl.agents.MeleeButtonAgent;
 import drl.agents.MeleeJoystickAgent;
@@ -52,11 +53,13 @@ public class MeleeRunner {
             IAgent bbuttonAgent = new MeleeButtonAgent("B");
             IAgent cstickAgent = new MeleeJoystickAgent("C");
             IAgent abuttonAgent = new MeleeButtonAgent("A");
-            dependencyGraph.addAgent(null, bbuttonAgent, "B");
+            IAgent combination = new CombinationControlAgent(new String[][]{{"MR", "MN", "MNE", "ME", "MSE", "MS", "MSW", "MW", "MNW" },{"PB", "RB"}});
+            //dependencyGraph.addAgent(null, bbuttonAgent, "B");
             //dependencyGraph.addAgent(new String[]{"M"}, abuttonAgent, "A");
-            dependencyGraph.addAgent(new String[]{"B"}, joystickAgent, "M");
+            //dependencyGraph.addAgent(new String[]{"B"}, joystickAgent, "M");
             //dependencyGraph.addAgent(new String[]{"M"}, cstickAgent, "C");
-            //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/modelStickB.mod");
+            dependencyGraph.addAgent(null, combination, "Comb");
+            //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/modelComb.mod");
         }
         catch (Exception e){
             System.out.println("Could not connect to server" + e);
