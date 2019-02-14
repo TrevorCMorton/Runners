@@ -15,6 +15,7 @@ import drl.servers.ITrainingServer;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.concurrent.*;
 
 public class MeleeRunner {
     public static final int loopTime = 100;
@@ -76,7 +77,22 @@ public class MeleeRunner {
         decisionAgent.setMetaGraph(server.getUpdatedNetwork());
 
         PythonBridge bridge = new PythonBridge(Boolean.parseBoolean(args[2]), MetaDecisionAgent.size, MetaDecisionAgent.depth, saveHits);
-        bridge.start();
+
+        ExecutorService executor = Executors.newCachedThreadPool();
+        Callable<Object> task = new Callable<Object>() {
+            public Object call() {
+                bridge.start();
+                return true;
+            }
+        };
+        Future<Object> future = executor.submit(task);
+        try {
+            Object result = future.get(60, TimeUnit.SECONDS);
+        } catch (Exception ex) {
+            System.out.println("Timeout on emulator start: " + ex.toString());
+            pr.destroy();
+            return;
+        }
 
         INDArray[] prevActionMask = decisionAgent.getOutputMask(new String[0]);
 
