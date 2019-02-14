@@ -91,6 +91,7 @@ public class MeleeRunner {
         } catch (Exception ex) {
             System.out.println("Timeout on emulator start: " + ex.toString());
             pr.destroy();
+            server.stop();
             return;
         }
 
