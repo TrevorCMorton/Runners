@@ -49,7 +49,7 @@ public class RiseRunner {
         double prob = server.getProb();
         MetaDecisionAgent decisionAgent = new MetaDecisionAgent(dependencyGraph, prob);
 
-        INDArray[] state = decisionAgent.getState(convFrames, new String[]{});
+        INDArray[] state = decisionAgent.getState(convFrames);
 
         decisionAgent.getOutputNames();
 
@@ -71,7 +71,7 @@ public class RiseRunner {
             maskSum = maskSum.add(masks[i]);
 
             INDArray maskedInput = convFrames.mul(masks[i]);
-            INDArray[] maskedState = decisionAgent.getState(maskedInput, new String[]{});
+            INDArray[] maskedState = decisionAgent.getState(maskedInput);
             INDArray[] erroredLabels = graph.output(maskedState);
 
             for(int j = 0; j < errorSums.length; j++){
