@@ -12,18 +12,30 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 import org.nd4j.linalg.ops.transforms.Transforms;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Properties;
+
 public class RiseRunner {
 
 
     public static void main(String[] args) throws Exception{
+        InputStream input = new FileInputStream("/home/trevor/Documents/dev/jpy/build/lib.linux-x86_64-3.6/jpyconfig.properties");
+        Properties jpyProps = new Properties();
+        // load a properties file
+        jpyProps.load(input);
+
+        Properties prop = System.getProperties();
+
+        for(String property : jpyProps.stringPropertyNames()){
+            prop.setProperty(property, (String)jpyProps.get(property));
+        }
+
         RisePythonBridge bridge = new RisePythonBridge(args, MetaDecisionAgent.size);
         bridge.setup();
 
-        float[] origFlatFrames = bridge.getOriginalFrames();
-        float[] convFlatFrames = bridge.getConvertedFrames();
-
-        INDArray origFrames = Nd4j.create(origFlatFrames, new int[]{4, 640, 508});
-        INDArray convFrames = Nd4j.create(convFlatFrames, new int[]{4, MetaDecisionAgent.size, MetaDecisionAgent.size});
+        float[] convFlatFrames = bridge.getState();
+        INDArray convFrames = Nd4j.create(convFlatFrames, new int[]{MetaDecisionAgent.depth, MetaDecisionAgent.size, MetaDecisionAgent.size});
 
         AgentDependencyGraph dependencyGraph = new AgentDependencyGraph();
         IAgent joystickAgent = new MeleeJoystickAgent("M");
@@ -32,18 +44,20 @@ public class RiseRunner {
         dependencyGraph.addAgent(null, joystickAgent, "M");
         //dependencyGraph.addAgent(new String[]{"M"}, cstickAgent, "C");
         //dependencyGraph.addAgent(new String[]{"M"}, abuttonAgent, "A");
-        ITrainingServer server = new DummyTrainingServer(dependencyGraph, "model.mod");
+        ITrainingServer server = new DummyTrainingServer(dependencyGraph, "modelStick.mod");
 
         double prob = server.getProb();
         MetaDecisionAgent decisionAgent = new MetaDecisionAgent(dependencyGraph, prob);
 
+        INDArray[] state = decisionAgent.getState(convFrames, new String[]{});
+
         decisionAgent.getOutputNames();
 
-        INDArray[] masks = getMasks(500, new int[]{1, MetaDecisionAgent.depth, MetaDecisionAgent.size, MetaDecisionAgent.size}, .1);
+        INDArray[] masks = getMasks(1, new int[]{1, MetaDecisionAgent.depth, MetaDecisionAgent.size, MetaDecisionAgent.size}, .1);
 
         ComputationGraph graph = server.getUpdatedNetwork();
 
-        INDArray[] trainedLabels = graph.output(convFrames);
+        INDArray[] trainedLabels = graph.output(state);
 
         INDArray[] errorSums = new INDArray[trainedLabels.length];
 
@@ -57,7 +71,8 @@ public class RiseRunner {
             maskSum = maskSum.add(masks[i]);
 
             INDArray maskedInput = convFrames.mul(masks[i]);
-            INDArray[] erroredLabels = graph.output(maskedInput);
+            INDArray[] maskedState = decisionAgent.getState(maskedInput, new String[]{});
+            INDArray[] erroredLabels = graph.output(maskedState);
 
             for(int j = 0; j < errorSums.length; j++){
                 INDArray maskLabelError = Transforms.abs(erroredLabels[j].sub(trainedLabels[j]));
@@ -67,6 +82,12 @@ public class RiseRunner {
 
         for(int j = 0; j < errorSums.length; j++){
             errorSums[j] = errorSums[j].div(maskSum);
+            errorSums[j] = errorSums[j].div(errorSums[j].maxNumber());
+        }
+
+        String[] outputNames = decisionAgent.getOutputNames();
+        for(int i = 0; i < 1/*outputNames.length*/; i++){
+            bridge.outputImages(errorSums[i].toFloatVector(), outputNames[i]);
         }
     }
 

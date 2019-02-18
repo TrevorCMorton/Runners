@@ -27,11 +27,11 @@ public class RisePythonBridge {
         source.setup();
     }
 
-    public float[] getOriginalFrames(){
-        return source.get_flat_original_images();
+    public float[] getState(){
+        return source.get_state();
     }
 
-    public float[] getConvertedFrames(){
-        return source.get_flat_converted_images();
+    public void outputImages(float[] heats, String outputName){
+        source.output_mapped_images(heats, outputName);
     }
 }
