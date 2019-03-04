@@ -26,7 +26,7 @@ class P4:
         self.post_game = False
         self.restarting = False
         self.frame = None
-        self.cpu_level = 0
+        self.cpu_level = 3
         self.window_selected = False
         self.size = size
         self.save_hits = save_hits
