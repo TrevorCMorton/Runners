@@ -47,7 +47,7 @@ public class RiseRunner {
         ITrainingServer server = new DummyTrainingServer(dependencyGraph, "modelStick.mod");
 
         double prob = server.getProb();
-        MetaDecisionAgent decisionAgent = new MetaDecisionAgent(dependencyGraph, prob);
+        MetaDecisionAgent decisionAgent = new MetaDecisionAgent(dependencyGraph, prob, .0025, true);
 
         INDArray[] state = decisionAgent.getState(convFrames);
 

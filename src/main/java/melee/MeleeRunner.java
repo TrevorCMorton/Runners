@@ -44,8 +44,8 @@ public class MeleeRunner {
         ITrainingServer server;
 
         try {
-            server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
-            //server = new NetworkTrainingServer("localhost");
+            //server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
+            server = new NetworkTrainingServer("localhost");
             //server = new NetworkTrainingServer("ssbmvm1.csse.rose-hulman.edu");
             //server - new LocalTrainingServer(false, 10000, 128, );
             //server = new NetworkTrainingServer("192.168.2.191");
@@ -60,7 +60,7 @@ public class MeleeRunner {
             //dependencyGraph.addAgent(new String[]{"B"}, joystickAgent, "M");
             //dependencyGraph.addAgent(new String[]{"M"}, cstickAgent, "C");
             dependencyGraph.addAgent(null, combination, "Comb");
-            //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/modelComb.mod");
+            //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/modelStickB.mod");
         }
         catch (Exception e){
             System.out.println("Could not connect to server" + e);
@@ -73,7 +73,7 @@ public class MeleeRunner {
 
         AgentDependencyGraph dependencyGraph = server.getDependencyGraph();
         double prob = server.getProb();
-        MetaDecisionAgent decisionAgent = new MetaDecisionAgent(dependencyGraph, prob);
+        MetaDecisionAgent decisionAgent = new MetaDecisionAgent(dependencyGraph, prob, .00025, true);
         decisionAgent.setMetaGraph(server.getUpdatedNetwork());
 
         PythonBridge bridge = new PythonBridge(Boolean.parseBoolean(args[2]), MetaDecisionAgent.size, MetaDecisionAgent.depth, saveHits);
