@@ -7,6 +7,7 @@ import drl.agents.MeleeJoystickAgent;
 import drl.AgentDependencyGraph;
 import drl.MetaDecisionAgent;
 import drl.servers.NetworkTrainingServer;
+import org.nd4j.linalg.activations.impl.ActivationReLU;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 import drl.servers.DummyTrainingServer;
@@ -14,6 +15,7 @@ import drl.servers.ITrainingServer;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.concurrent.*;
 
@@ -73,7 +75,7 @@ public class MeleeRunner {
 
         AgentDependencyGraph dependencyGraph = server.getDependencyGraph();
         double prob = server.getProb();
-        MetaDecisionAgent decisionAgent = new MetaDecisionAgent(dependencyGraph, prob, .00025, true);
+        MetaDecisionAgent decisionAgent = new MetaDecisionAgent(dependencyGraph, new ArrayList<>(), prob, .00025, true);
         decisionAgent.setMetaGraph(server.getUpdatedNetwork());
 
         PythonBridge bridge = new PythonBridge(Boolean.parseBoolean(args[2]), MetaDecisionAgent.size, MetaDecisionAgent.depth, saveHits);

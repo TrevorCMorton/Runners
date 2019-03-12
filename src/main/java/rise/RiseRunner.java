@@ -8,12 +8,14 @@ import drl.agents.MeleeJoystickAgent;
 import drl.servers.DummyTrainingServer;
 import drl.servers.ITrainingServer;
 import org.deeplearning4j.nn.graph.ComputationGraph;
+import org.nd4j.linalg.activations.impl.ActivationReLU;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 import org.nd4j.linalg.ops.transforms.Transforms;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Properties;
 
 public class RiseRunner {
@@ -47,7 +49,7 @@ public class RiseRunner {
         ITrainingServer server = new DummyTrainingServer(dependencyGraph, "modelStick.mod");
 
         double prob = server.getProb();
-        MetaDecisionAgent decisionAgent = new MetaDecisionAgent(dependencyGraph, prob, .0025, true);
+        MetaDecisionAgent decisionAgent = new MetaDecisionAgent(dependencyGraph, new ArrayList<>(), prob, .0025, true);
 
         INDArray[] state = decisionAgent.getState(convFrames);
 
