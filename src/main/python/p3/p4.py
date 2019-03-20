@@ -12,6 +12,7 @@ import time
 from subprocess import call
 import PIL
 import scipy.misc
+import time
 
 class P4:
     def __init__(self, setup, size, depth, save_hits):
@@ -32,6 +33,7 @@ class P4:
         self.save_hits = save_hits
         self.save_buffer = [None] * depth
         self.frame_buffer = [np.zeros(size * size)] * depth
+        self.game_state = []
 
     def find_dolphin_dir(self):
         """Attempts to find the dolphin user directory. None on failure."""
@@ -110,6 +112,7 @@ class P4:
         self.sw = p3.screen_watcher.ScreenWatcher()
         thread = Thread(target=self.frame_reward)
         thread.start()
+        time.sleep(1)
 
     def is_post_game(self):
         return self.post_game
@@ -172,6 +175,30 @@ class P4:
                         i += 1
                         players_tuples.append(tuple)
                     self.players = players_tuples
+
+                    totalState = []
+
+                    for i in range(0, len(players)):
+                        totalState.append(float(game_state.players[i].action_state.value))
+                        totalState.append(float(game_state.players[i].self_air_vel_x))
+                        totalState.append(float(game_state.players[i].self_air_vel_y))
+                        totalState.append(float(game_state.players[i].attack_vel_x))
+                        totalState.append(float(game_state.players[i].attack_vel_y))
+                        totalState.append(float(game_state.players[i].pos_x))
+                        totalState.append(float(game_state.players[i].pos_y))
+                        totalState.append(float(game_state.players[i].on_ground))
+                        totalState.append(float(game_state.players[i].percent))
+                        totalState.append(float(game_state.players[i].hitlag))
+                        totalState.append(float(game_state.players[i].hitstun))
+                        totalState.append(float(game_state.players[i].jumps_used))
+                        totalState.append(float(game_state.players[i].body_state.value))
+                        totalState.append(float(game_state.players[i].shield_size))
+                        totalState.append(float(game_state.players[i].facing))
+
+                    self.game_state = totalState
+
+    def get_state(self):
+        return self.game_state
 
     def get_frame(self, size):
         screen = next(self.sw)

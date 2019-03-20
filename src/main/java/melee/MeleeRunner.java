@@ -46,9 +46,9 @@ public class MeleeRunner {
         ITrainingServer server;
 
         try {
-            server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
-            //server = new NetworkTrainingServer("localhost");
-            //server = new NetworkTrainingServer("ssbmvm1.csse.rose-hulman.edu");
+            //server = new NetworkTrainingServer("hinton.csse.rose-hulman.edu");
+            server = new NetworkTrainingServer("localhost");
+            //server = new NetworkTrainin12gServer("ssbmvm1.csse.rose-hulman.edu");
             //server - new LocalTrainingServer(false, 10000, 128, );
             //server = new NetworkTrainingServer("192.168.2.191");
             AgentDependencyGraph dependencyGraph = new AgentDependencyGraph();
@@ -122,7 +122,9 @@ public class MeleeRunner {
         while(true){
             long start = System.currentTimeMillis();
 
-            INDArray frame = getFrame(bridge);
+            INDArray gameState = Nd4j.create(bridge.getState(), new int[]{1, 4 * 15});
+
+            //INDArray frame = getFrame(bridge);
 
             if (bridge.isPostGame()){
                 if(sendData && upload) {
@@ -141,7 +143,7 @@ public class MeleeRunner {
             pythonTime += (pyTime - start);
 
 
-            INDArray[] state = decisionAgent.getState(frame);
+            INDArray[] state = decisionAgent.getState(gameState);
 
             String[] results = decisionAgent.evalState(state);
 
@@ -153,7 +155,7 @@ public class MeleeRunner {
             INDArray[] curLabels = decisionAgent.getCachedLabels();
 
             if(sendData && upload && prevState != null) {
-                server.addData(prevState, frame, prevActionMask, curScore, prevLabels, curLabels);
+                server.addData(prevState, gameState, prevActionMask, curScore, prevLabels, curLabels);
             }
 
             long rewTime = System.currentTimeMillis();

@@ -177,7 +177,6 @@ class MenuManager:
 
 
     def pick_map(self, state, pad):
-        print(self.map_frames)
         if self.map_moves < 20 and self.map_frames % 10 == 0:
             pad.tilt_stick(p3.pad.Stick.MAIN, .6, .7)
             self.map_moves += 1

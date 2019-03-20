@@ -8,6 +8,7 @@ import java.util.Properties;
 
 public class PythonBridge {
     P4 p4;
+    int[] players = {2, 3};
 
     public PythonBridge(boolean autoSetup, int size, int depth, boolean saveHits){
         Properties prop = System.getProperties();
@@ -38,6 +39,10 @@ public class PythonBridge {
     }
 
     public float[] getFlatFrame() { return this.p4.get_flat_frame(); }
+
+    public float[] getState() {
+        return this.p4.get_state();
+    }
 
     public float getReward() { return this.p4.get_frame_reward(); }
 
