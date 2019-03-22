@@ -178,8 +178,8 @@ class P4:
 
                     totalState = []
 
-                    for i in range(0, len(players)):
-                        totalState.append(float(game_state.players[i].action_state.value))
+                    for i in (1, 2):
+                        #totalState.append(float(game_state.players[i].action_state.value))
                         totalState.append(float(game_state.players[i].self_air_vel_x))
                         totalState.append(float(game_state.players[i].self_air_vel_y))
                         totalState.append(float(game_state.players[i].attack_vel_x))
@@ -191,7 +191,7 @@ class P4:
                         totalState.append(float(game_state.players[i].hitlag))
                         totalState.append(float(game_state.players[i].hitstun))
                         totalState.append(float(game_state.players[i].jumps_used))
-                        totalState.append(float(game_state.players[i].body_state.value))
+                        #totalState.append(float(game_state.players[i].body_state.value))
                         totalState.append(float(game_state.players[i].shield_size))
                         totalState.append(float(game_state.players[i].facing))
 
