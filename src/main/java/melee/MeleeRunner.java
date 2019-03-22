@@ -122,7 +122,7 @@ public class MeleeRunner {
         while(true){
             long start = System.currentTimeMillis();
 
-            INDArray gameState = Nd4j.create(bridge.getState(), new int[]{1, 4 * 15});
+            INDArray gameState = Nd4j.create(bridge.getState(), new int[]{1, 2 * 13});
 
             //INDArray frame = getFrame(bridge);
 
