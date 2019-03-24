@@ -33,7 +33,7 @@ class P4:
         self.save_hits = save_hits
         self.save_buffer = [None] * depth
         self.frame_buffer = [np.zeros(size * size)] * depth
-        self.game_state = []
+        self.game_state = [[0] * (13 * 2)] * depth
 
     def find_dolphin_dir(self):
         """Attempts to find the dolphin user directory. None on failure."""
@@ -112,7 +112,6 @@ class P4:
         self.sw = p3.screen_watcher.ScreenWatcher()
         thread = Thread(target=self.frame_reward)
         thread.start()
-        time.sleep(1)
 
     def is_post_game(self):
         return self.post_game
@@ -195,10 +194,19 @@ class P4:
                         totalState.append(float(game_state.players[i].shield_size))
                         totalState.append(float(game_state.players[i].facing))
 
-                    self.game_state = totalState
+                    for i in range(0, len(self.game_state)):
+                        temp = self.game_state[i]
+                        self.game_state[i] = totalState
+                        totalState = temp
 
     def get_state(self):
-        return self.game_state
+        state = []
+
+        for i in range(0, len(self.game_state)):
+            state += self.game_state[i]
+
+        return state
+
 
     def get_frame(self, size):
         screen = next(self.sw)
