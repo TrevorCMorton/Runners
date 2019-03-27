@@ -34,6 +34,7 @@ class P4:
         self.save_buffer = [None] * depth
         self.frame_buffer = [np.zeros(size * size)] * depth
         self.game_state = [[0] * (13 * 2)] * depth
+        self.actionMasks = [0] * 26
 
     def find_dolphin_dir(self):
         """Attempts to find the dolphin user directory. None on failure."""
@@ -205,7 +206,7 @@ class P4:
         for i in range(0, len(self.game_state)):
             state += self.game_state[i]
 
-        return state
+        return state + self.actionMasks
 
 
     def get_frame(self, size):
@@ -241,63 +242,92 @@ class P4:
 
     def execute(self, actions):
         pad_path = self.dolphin_dir + '/Pipes/p3'
+        actionMasks = [0] * 26
         with p3.pad.Pad(pad_path) as pad:
             for actionSet in actions:
                 for action in actionSet.split(':'):
                     if action == 'MR':
                         pad.tilt_stick(p3.pad.Stick.MAIN, .5, .5)
+                        actionMasks[0] = 1
                     elif action == 'MN':
                         pad.tilt_stick(p3.pad.Stick.MAIN, .5, 1)
+                        actionMasks[1] = 1
                     elif action == 'MNW':
                         pad.tilt_stick(p3.pad.Stick.MAIN, 1, 1)
+                        actionMasks[2] = 1
                     elif action == 'MW':
                         pad.tilt_stick(p3.pad.Stick.MAIN, 1, .5)
+                        actionMasks[3] = 1
                     elif action == 'MSW':
                         pad.tilt_stick(p3.pad.Stick.MAIN, 1, 0)
+                        actionMasks[4] = 1
                     elif action == 'MS':
                         pad.tilt_stick(p3.pad.Stick.MAIN, .5, 0)
+                        actionMasks[5] = 1
                     elif action == 'MSE':
                         pad.tilt_stick(p3.pad.Stick.MAIN, 0, 0)
+                        actionMasks[6] = 1
                     elif action == 'ME':
                         pad.tilt_stick(p3.pad.Stick.MAIN, 0, .5)
+                        actionMasks[7] = 1
                     elif action == 'MNE':
                         pad.tilt_stick(p3.pad.Stick.MAIN, 0, 1)
+                        actionMasks[8] = 1
 
                     if action == 'CR':
                         pad.tilt_stick(p3.pad.Stick.C, .5, .5)
+                        actionMasks[9] = 1
                     elif action == 'CN':
                         pad.tilt_stick(p3.pad.Stick.C, .5, 1)
+                        actionMasks[10] = 1
                     elif action == 'CNW':
                         pad.tilt_stick(p3.pad.Stick.C, 1, 1)
+                        actionMasks[11] = 1
                     elif action == 'CW':
                         pad.tilt_stick(p3.pad.Stick.C, 1, .5)
+                        actionMasks[12] = 1
                     elif action == 'CSW':
                         pad.tilt_stick(p3.pad.Stick.C, 1, 0)
+                        actionMasks[13] = 1
                     elif action == 'CS':
                         pad.tilt_stick(p3.pad.Stick.C, .5, 0)
+                        actionMasks[14] = 1
                     elif action == 'CSE':
                         pad.tilt_stick(p3.pad.Stick.C, 0, 0)
+                        actionMasks[15] = 1
                     elif action == 'CE':
                         pad.tilt_stick(p3.pad.Stick.C, 0, .5)
+                        actionMasks[16] = 1
                     elif action == 'CNE':
                         pad.tilt_stick(p3.pad.Stick.C, 0, 1)
+                        actionMasks[17] = 1
 
                     if action == 'PA':
                         pad.press_button(p3.pad.Button.A)
+                        actionMasks[18] = 1
                     elif action == 'RA':
                         pad.release_button(p3.pad.Button.A)
+                        actionMasks[19] = 1
 
                     if action == 'PB':
                         pad.press_button(p3.pad.Button.B)
+                        actionMasks[20] = 1
                     elif action == 'RB':
                         pad.release_button(p3.pad.Button.B)
+                        actionMasks[21] = 1
 
                     if action == 'PY':
                         pad.press_button(p3.pad.Button.Y)
+                        actionMasks[22] = 1
                     elif action == 'RY':
                         pad.release_button(p3.pad.Button.Y)
+                        actionMasks[23] = 1
 
                     if action == 'PZ':
                         pad.press_button(p3.pad.Button.Z)
+                        actionMasks[24] = 1
                     elif action == 'RZ':
                         pad.release_button(p3.pad.Button.Z)
+                        actionMasks[25] = 1
+
+        self.actionMasks = actionMasks
