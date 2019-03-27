@@ -20,7 +20,7 @@ import java.util.Properties;
 import java.util.concurrent.*;
 
 public class MeleeRunner {
-    public static final int loopTime = 100;
+    public static final int loopTime = 50;
 
     private static boolean saveHits = false;
 
@@ -62,6 +62,7 @@ public class MeleeRunner {
             //dependencyGraph.addAgent(new String[]{"B"}, joystickAgent, "M");
             //dependencyGraph.addAgent(new String[]{"M"}, cstickAgent, "C");
             dependencyGraph.addAgent(null, combination, "Comb");
+            //server = new DummyTrainingServer(dependencyGraph, "fake");
             //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/modelStickB.mod");
         }
         catch (Exception e){
@@ -122,7 +123,7 @@ public class MeleeRunner {
         while(true){
             long start = System.currentTimeMillis();
 
-            INDArray gameState = Nd4j.create(bridge.getState(), new int[]{1, 2 * 13});
+            INDArray gameState = Nd4j.create(bridge.getState(), new int[]{1, MetaDecisionAgent.depth * 2 * 13});
 
             //INDArray frame = getFrame(bridge);
 
