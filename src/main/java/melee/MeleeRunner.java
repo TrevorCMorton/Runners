@@ -56,13 +56,14 @@ public class MeleeRunner {
             IAgent bbuttonAgent = new MeleeButtonAgent("B");
             IAgent cstickAgent = new MeleeJoystickAgent("C");
             IAgent abuttonAgent = new MeleeButtonAgent("A");
-            IAgent combination = new CombinationControlAgent(new String[][]{{"MR", "MN", "MNE", "ME", "MSE", "MS", "MSW", "MW", "MNW" },{"PB", "RB"}});
+            IAgent combination = new CombinationControlAgent(new String[][]{{"MR", "MN", "MNE", "ME", "MSE", "MS", "MSW", "MW", "MNW" },{"PA", "RA"}});
             //dependencyGraph.addAgent(null, bbuttonAgent, "B");
             //dependencyGraph.addAgent(new String[]{"M"}, abuttonAgent, "A");
             //dependencyGraph.addAgent(new String[]{"B"}, joystickAgent, "M");
             //dependencyGraph.addAgent(new String[]{"M"}, cstickAgent, "C");
             dependencyGraph.addAgent(null, combination, "Comb");
             //server = new DummyTrainingServer(dependencyGraph, "fake");
+            //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/DuckingStationary.mod");
             //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/modelStickB.mod");
         }
         catch (Exception e){
@@ -171,18 +172,9 @@ public class MeleeRunner {
 
             long end = System.currentTimeMillis();
             masktime += (end - exTime);
-            if(end - start < MeleeRunner.loopTime) {
-                upload = true;
 
-                if(curScore != 0) {
-                    System.out.println(curScore);
-                }
-
-                Thread.sleep(MeleeRunner.loopTime - (end - start));
-            }
-            else{
-                upload = false;
-                System.out.println((end - start)  + " ms ");
+            if(curScore != 0) {
+                System.out.println(curScore);
             }
 
             prevState = state;

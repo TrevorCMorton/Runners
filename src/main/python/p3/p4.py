@@ -7,7 +7,7 @@ import p3.state_manager
 import p3.screen_watcher
 import numpy as np
 import cv2
-from threading import Thread
+from threading import Semaphore, Thread
 import time
 from subprocess import call
 import PIL
@@ -35,6 +35,13 @@ class P4:
         self.frame_buffer = [np.zeros(size * size)] * depth
         self.game_state = [[0] * (13 * 2)] * depth
         self.actionMasks = [0] * 26
+        self.num_to_gather = 4
+        self.num_gathered = 0
+        self.lock = Semaphore(1)
+        self.gathered = Semaphore(0)
+        self.gathering = Semaphore(depth)
+        self.total_gathered = 0
+
 
     def find_dolphin_dir(self):
         """Attempts to find the dolphin user directory. None on failure."""
@@ -137,11 +144,14 @@ class P4:
         mm = p3.menu_manager.MenuManager()
         with p3.memory_watcher.MemoryWatcher(mw_path) as mw:
             while True:
+
                 last_frame = game_state.frame
                 res = next(mw)
                 if res is not None:
                     sm.handle(*res)
                 if game_state.frame > last_frame:
+                    self.gathering.acquire()
+
                     self.frame = self.get_frame(self.size)
 
                     if game_state.menu == p3.state.Menu.PostGame:
@@ -200,11 +210,30 @@ class P4:
                         self.game_state[i] = totalState
                         totalState = temp
 
+                    self.total_gathered += 1
+
+                    self.lock.acquire()
+                    self.num_gathered += 1
+                    if self.num_gathered == self.num_to_gather:
+                        self.lock.release()
+                        self.gathered.release()
+                    else:
+                        self.lock.release()
+
     def get_state(self):
+        self.gathered.acquire()
+
+        self.lock.acquire()
+        self.num_gathered = 0
+        self.lock.release()
+
         state = []
 
         for i in range(0, len(self.game_state)):
             state += self.game_state[i]
+
+        for i in range(0, self.num_to_gather):
+            self.gathering.release()
 
         return state + self.actionMasks
 
@@ -229,8 +258,15 @@ class P4:
         return np.concatenate(self.frame_buffer) / 255
 
     def get_frame_fast(self):
-        while self.frame is None:
-            time.sleep(1)
+        self.gathered.acquire()
+
+        self.lock.acquire()
+        self.num_gathered = 0
+        self.lock.release()
+
+        for i in range(0, self.num_to_gather):
+            self.gathering.release()
+
         return self.frame
 
     def get_flat_frame(self):
