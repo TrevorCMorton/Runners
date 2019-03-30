@@ -124,9 +124,9 @@ public class MeleeRunner {
         while(true){
             long start = System.currentTimeMillis();
 
-            INDArray gameState = Nd4j.create(bridge.getState(), new int[]{1, MetaDecisionAgent.depth * 2 * 13 + 26});
+            //INDArray gameState = Nd4j.create(bridge.getState(), new int[]{1, MetaDecisionAgent.depth * 2 * 13 + 26});
 
-            //INDArray frame = getFrame(bridge);
+            INDArray frame = getFrame(bridge);
 
             if (bridge.isPostGame()){
                 if(sendData && upload) {
@@ -145,7 +145,7 @@ public class MeleeRunner {
             pythonTime += (pyTime - start);
 
 
-            INDArray[] state = decisionAgent.getState(gameState);
+            INDArray[] state = decisionAgent.getState(frame);
 
             String[] results = decisionAgent.evalState(state);
 
@@ -157,7 +157,7 @@ public class MeleeRunner {
             INDArray[] curLabels = decisionAgent.getCachedLabels();
 
             if(sendData && upload && prevState != null) {
-                server.addData(prevState, gameState, prevActionMask, curScore, prevLabels, curLabels);
+                server.addData(prevState, frame, prevActionMask, curScore, prevLabels, curLabels);
             }
 
             long rewTime = System.currentTimeMillis();
