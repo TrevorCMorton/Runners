@@ -63,7 +63,7 @@ public class MeleeRunner {
             //dependencyGraph.addAgent(new String[]{"M"}, cstickAgent, "C");
             dependencyGraph.addAgent(null, combination, "Comb");
             //server = new DummyTrainingServer(dependencyGraph, "fake");
-            //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/DuckingStationary.mod");
+            //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/AnActualAi.mod");
             //server = new DummyTrainingServer(dependencyGraph, "/home/trevor/Runners/modelStickB.mod");
         }
         catch (Exception e){
@@ -153,7 +153,9 @@ public class MeleeRunner {
             stateTime += stTime - pyTime;
 
             float curScore = bridge.getReward();
-            score += curScore;
+            if(curScore > 0) {
+                score += curScore;
+            }
             INDArray[] curLabels = decisionAgent.getCachedLabels();
 
             if(sendData && upload && prevState != null) {
